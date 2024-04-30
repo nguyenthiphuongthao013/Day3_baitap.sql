@@ -17,7 +17,10 @@ else 'No'
 end as triangle
 from Triangle
 Bai3
-
+SELECT 
+100*SUM(CASE
+when call_category = 'n/a' then 1 else 0 end )/COUNT(call_category)
+From callers
 Bai4
 select name
 from Customer
