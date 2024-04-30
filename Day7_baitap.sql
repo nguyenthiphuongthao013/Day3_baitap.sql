@@ -35,7 +35,11 @@ Bai6
 select tweet_id from Tweets
 where length(content)>15
 Bai7
-
+select activity_date as day,
+count(distinct user_id) as active_users
+From Activity
+where activity_date between '2019-06-28' and '2019-07-27'
+group by activity_date
 Bai8
 select
 count(id) as  employees
