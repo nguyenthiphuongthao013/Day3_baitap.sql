@@ -13,7 +13,14 @@ LEFT JOIN texts as T
 on E.email_id=T.email_id
 and T.signup_action = 'confirmed'
 Bai3
-
+SELECT AG.age_bucket, 
+ROUND(100*SUM(CASE WHEN AC.activity_type LIKE '%send%' THEN AC.time_spent ELSE 0 END)/SUM(AC.time_spent),2) AS send_perc, 
+ROUND(100*SUM(CASE WHEN AC.activity_type LIKE '%open%' THEN AC.time_spent ELSE 0 END)/SUM(AC.time_spent),2) AS open_perc
+FROM activities AS AC
+INNER JOIN age_breakdown AS AG
+ON AC.user_id = AG.user_id
+WHERE activity_type !='chat'
+GROUP BY 1;
 Bai4
 SELECT C.customer_id AS Supercloud_customers,
 COUNT (DISTINCT P.product_category) AS result
