@@ -1,5 +1,10 @@
 Bai1
-
+select
+a.continent,
+floor(AVG(b.population))
+from
+country as a join city as b on a.code=b.countrycode
+group by a.continent
 Bai2
 
 Bai3
