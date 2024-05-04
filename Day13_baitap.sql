@@ -36,11 +36,34 @@ ON P.page_id=L.page_id
 WHERE L.user_id is NULL
 ORDER BY page_id
 Bai5
-
+select extract(month from event_date) as month, 
+count(distinct user_id) as monthly_active_users
+from user_actions
+where user_id in 
+(select
+distinct user_id
+from user_actions
+where event_type in ('sign-in','like','comment') and 
+event_date>='06/01/2022' and event_date<='06/30/2022')
+and event_date>='07/01/2022' and event_date<='07/31/2022'
+group by extract(month from event_date)
 Bai6
-
+SELECT LEFT(trans_date, 7) AS month, 
+country,
+COUNT(*) AS trans_count,
+SUM(CASE WHEN state = 'approved' THEN 1 ELSE 0 END) AS approved_count, 
+SUM(amount) AS trans_total_amount,
+SUM(CASE WHEN state = 'approved'THEN amount ELSE 0 END) AS approved_total_amount
+FROM Transactions
+GROUP BY month, country
 Bai7
+SELECT P.product_id, MIN(S.year) AS first_year , S.quantity, S.price
+FROM Product AS P
+LEFT JOIN Sales AS S
+ON P.product_id = S.product_id
 
+GROUP BY S.product_id
+HAVING S.quantity IS NOT NULL
 Bai8
 
 Bai9
