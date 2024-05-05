@@ -71,5 +71,26 @@ Bai9
 Bai10
 
 Bai11
-
+select results from 
+(select t.name as results,
+count(m.rating) as h
+from Users as t join MovieRating as m on t.user_id=m.user_id
+group by t.name
+order by h desc, t.name
+limit 1) as k
+union
+select results from
+(select e.title as results,
+avg(rating) as h
+from Movies as e join MovieRating as m on e.movie_id=m.movie_id
+where left(created_at,7)='2020-02'
+group by e.title
+order by h desc, e.title
+limit 1) as i
 Bai12
+select id, max(num) as num
+from
+(select requester_id as id,
+count(accepter_id) as num
+from RequestAccepted
+group by requester_id) as a
