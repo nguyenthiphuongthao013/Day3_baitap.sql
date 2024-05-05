@@ -65,11 +65,25 @@ ON P.product_id = S.product_id
 GROUP BY S.product_id
 HAVING S.quantity IS NOT NULL
 Bai8
-
+select customer_id
+from customer
+group by customer_id
+having count(product_key) = (select count(product_key ) from product)
 Bai9
-
+select a.employee_id
+from
+Employees as a left join Employees as b on a.manager_id=b.employee_id
+where a.salary<30000 and b.employee_id is null
+order by a.employee_id
 Bai10
-
+WITH CTE AS
+(SELECT
+company_id, title, description, COUNT(*) AS TIME
+FROM job_listings
+GROUP BY company_id, title, description
+)
+SELECT COUNT(company_id) FROM CTE
+WHERE TIME >1
 Bai11
 select results from 
 (select t.name as results,
