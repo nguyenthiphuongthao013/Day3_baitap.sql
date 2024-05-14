@@ -8,4 +8,8 @@ ALTER COLUMN sales TYPE numeric USING (trim(sales)::numeric),
 ALTER COLUMN msrp TYPE numeric USING (trim(msrp)::numeric),
 ALTER COLUMN orderdate TYPE TIMESTAMP USING (trim(orderdate)::TIMESTAMP);
 Bai2
+select * from public.sales_dataset_rfm_prj
+where ORDERNUMBER is null and QUANTITYORDERED is null 
+and PRICEEACH is null and ORDERLINENUMBER is null and SALES is null and ORDERDATE is null;
+Bai3
 
