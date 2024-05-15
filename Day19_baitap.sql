@@ -32,10 +32,16 @@ UPDATE public.sales_dataset_rfm_prj_clean
 SET contactfirstname=UPPER(LEFT(contactfirstname,1))||LOWER(SUBSTRING(contactfirstname,2));
 
 Bai4
-ALTER TABLE public.sales_dataset_rfm_prj
-ADD COLUMN QTR_ID DATE,
-ADD COLUMN MONTH_ID DATE,
-ADD COLUMN YEAR_ID DATE
+ALTER TABLE public.sales_dataset_rfm_prj_clean
+ADD COLUMN QTR_ID NUMERIC,
+ADD COLUMN MONTH_ID NUMERIC,
+ADD COLUMN YEAR_ID NUMERIC
+UPDATE public.sales_dataset_rfm_prj_clean
+SET year_ID1 = extract(year from orderdate)
+UPDATE public.sales_dataset_rfm_prj_clean
+SET month_ID1 = extract(month from orderdate)
+UPDATE public.sales_dataset_rfm_prj_clean
+SET qtr_ID1 = extract(quarter from orderdate)
 
 Bai5
 WITH CTE AS 
