@@ -15,4 +15,17 @@ Insight:
 - Có sự tăng đều qua các tháng, năm
   
 Bai2
+select 
+Format_date('%Y-%m', delivered_at) as Year_month,
+sum(sale_price)/count(distinct order_id) as average_order_value,
+count(distinct user_id) as distinct_users
+from bigquery-public-data.thelook_ecommerce.order_items
+where status = 'Complete' and delivered_at between '2019-01-01 00:00:00' and '2022-05-01 00:00:00'
+group by 1
+order by 1
+
+Insight:
+- Có sự tăng giảm không đáng kể giữa các tháng
+
+Bai3
 
