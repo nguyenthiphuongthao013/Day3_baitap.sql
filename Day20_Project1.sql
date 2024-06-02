@@ -72,3 +72,38 @@ group by gender, tag
 Insight: trong giai đoạn Từ 1/2019-4/2022
 Giới tính Female: lớn tuổi nhất là 70 tuổi (525 người người dùng); nhỏ tuổi nhất là 12 tuổi (569 người dùng)
 Giới tính Male: lớn tuổi nhất là 70 tuổi (529 người người dùng); nhỏ tuổi nhất là 12 tuổi (546 người dùng)
+
+Bai 4
+Select * from 
+(With product_profit as
+(
+Select 
+FORMAT_DATE('%Y-%m', t1.delivered_at) as month_year,
+t1.product_id as product_id,
+t2.name as product_name,
+round(sum(t1.sale_price),2) as sales,
+round(sum(t2.cost),2) as cost,
+round(sum(t1.sale_price)-sum(t2.cost),2)  as profit
+from bigquery-public-data.thelook_ecommerce.order_items as t1
+Join bigquery-public-data.thelook_ecommerce.products as t2 on t1.product_id=t2.id
+Where t1.status='Complete'
+Group by month_year, t1.product_id, t2.name
+)
+Select * ,
+dense_rank() OVER ( PARTITION BY month_year ORDER BY month_year,profit) as rank
+from product_profit
+) as rank_table
+Where rank_table.rank<=5
+order by rank_table.month_year
+
+Bai 5
+Select 
+FORMAT_DATE('%Y-%m-%d', O.delivered_at) as dates,
+P.category as product_categories,
+round(sum(O.sale_price),2) as revenue
+from bigquery-public-data.thelook_ecommerce.order_items as O
+join bigquery-public-data.thelook_ecommerce.products as P
+on P.id = O.product_id
+where O.delivered_at between '2022-04-15 00:00:00' and '2022-07-16 00:00:00'
+group by dates, product_categories
+order by dates
